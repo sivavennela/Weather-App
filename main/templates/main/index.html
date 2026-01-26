@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: url("{% static 'weather1.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1.5rem 1.8rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            width: 320px;
+            text-align: center;   /* 🔹 centers all content */
+        }
+
+        h1 {
+            margin: 0 0 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            margin: 0.8rem 0 0.5rem;
+        }
+
+        /* 🔹 Inline form */
+        form {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"] {
+            padding: 0.45rem 0.6rem;
+            width: 190px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 0.9rem;
+        }
+
+        button {
+            padding: 0.45rem 0.9rem;
+            border: none;
+            border-radius: 5px;
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .weather {
+            margin-top: 0.8rem;
+        }
+
+        .weather p {
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+
+        img {
+            margin-top: 0.4rem;
+            width: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Weather App</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Enter city name">
+            <button type="submit">Get Weather</button>
+        </form>
+
+        {% if weather %}
+        <div class="weather">
+            <h2>{{ weather.city }}</h2>
+            <p>🌡 {{ weather.temperature }} °C</p>
+            <p>💧 {{ weather.humidity }} %</p>
+            <p>⏲ {{ weather.pressure }} hPa</p>
+            <p>☁ {{ weather.description }}</p>
+            <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather icon">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
